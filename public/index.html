@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adega do Renan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="adega">
+  <div class="app">
+    <header class="topo entrar">
+      <div>
+        <p class="eyebrow">Gestão de estoque</p>
+        <h1>Adega do Renan</h1>
+      </div>
+      <button class="btn btn-primario" id="btn-novo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Nova bebida
+      </button>
+    </header>
+
+    <section class="resumo entrar" style="--i:1">
+      <div class="stat"><span class="eyebrow">Rótulos</span><strong id="stat-rotulos">0</strong></div>
+      <div class="stat"><span class="eyebrow">Garrafas em estoque</span><strong id="stat-garrafas">0</strong></div>
+      <div class="stat"><span class="eyebrow">Valor em estoque</span><strong id="stat-valor">R$ 0,00</strong></div>
+    </section>
+
+    <nav class="segmentos entrar" style="--i:2" aria-label="Seções">
+      <span class="segmentos-indicador"></span>
+      <button data-view="adega" class="ativo">Adega</button>
+      <button data-view="ranking">Ranking</button>
+    </nav>
+
+    <main class="grade">
+      <section class="painel painel-adega entrar" style="--i:2">
+        <div class="ferramentas">
+          <label class="busca">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="busca" type="search" placeholder="Buscar por nome, produtor ou região" autocomplete="off">
+          </label>
+          <div class="chips" id="chips"></div>
+        </div>
+        <div class="lista-cabecalho">
+          <span class="eyebrow">Na adega</span>
+          <span class="contagem" id="contagem"></span>
+        </div>
+        <ul class="lista" id="lista"></ul>
+        <div class="vazio" id="vazio" hidden>
+          <p class="vazio-titulo">Nenhuma bebida por aqui</p>
+          <p>Ajuste a busca ou cadastre um novo rótulo.</p>
+        </div>
+      </section>
+
+      <aside class="painel painel-ranking entrar" style="--i:3">
+        <div class="ranking-topo">
+          <div>
+            <p class="eyebrow">Redis · sorted set</p>
+            <h2>Mais estoque</h2>
+          </div>
+          <button class="btn-icone" id="btn-sync" title="Reconstruir ranking a partir do Supabase" aria-label="Sincronizar ranking">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></svg>
+          </button>
+        </div>
+        <div class="aviso" id="redis-off" hidden>
+          <span class="aviso-icone"></span>
+          <div><strong>Redis offline</strong><p>O ranking volta assim que a conexão for restabelecida.</p></div>
+        </div>
+        <ol class="ranking" id="ranking"></ol>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Formulário de cadastro / edição -->
+  <div class="sheet-fundo" id="sheet-fundo" hidden>
+    <form class="sheet" id="form" novalidate>
+      <div class="sheet-alca"></div>
+      <div class="sheet-topo">
+        <div>
+          <p class="eyebrow" id="form-eyebrow">Cadastro</p>
+          <h2 id="form-titulo">Nova bebida</h2>
+        </div>
+        <button type="button" class="btn-icone" data-fechar aria-label="Fechar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="campos">
+        <label class="campo largo"><span>Nome</span><input name="nome" required maxlength="120" placeholder="Ex.: Catena Malbec"></label>
+        <label class="campo"><span>Produtor</span><input name="produtor" placeholder="Ex.: Catena Zapata"></label>
+        <label class="campo"><span>Tipo</span><select name="tipo" id="campo-tipo"></select></label>
+        <label class="campo"><span>Safra</span><input name="safra" type="number" min="1900" max="2100" placeholder="—"></label>
+        <label class="campo"><span>Região</span><input name="regiao" placeholder="Ex.: Mendoza"></label>
+        <label class="campo"><span>Volume (ml)</span><input name="volume_ml" type="number" min="1" value="750"></label>
+        <label class="campo"><span>Preço (R$)</span><input name="preco" type="number" min="0" step="0.01" placeholder="0,00"></label>
+        <label class="campo"><span>Estoque</span><input name="estoque" type="number" min="0" step="1" value="0"></label>
+        <label class="campo largo"><span>Descrição</span><textarea name="descricao" rows="2" placeholder="Notas de degustação, harmonização…"></textarea></label>
+      </div>
+
+      <p class="form-erro" id="form-erro" role="alert"></p>
+
+      <div class="sheet-acoes">
+        <button type="button" class="btn btn-perigo" id="btn-excluir" hidden>Excluir</button>
+        <span class="espaco"></span>
+        <button type="button" class="btn btn-contorno" data-fechar>Cancelar</button>
+        <button type="submit" class="btn btn-primario" id="btn-salvar">Salvar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
