@@ -2,6 +2,12 @@
 
 CRUD de bebidas com **Supabase** (banco principal) e **Redis** (ranking das bebidas com mais estoque).
 
+## Vídeo de apresentação
+
+▶️ **[Assista à demonstração do projeto](COLE-O-LINK-DO-VIDEO-AQUI)**
+
+O vídeo apresenta a proposta do projeto, as telas e funcionalidades, a integração com o Supabase, uma demonstração prática do Redis e a explicação de onde, por que e com quais benefícios o Redis foi usado.
+
 ## Como rodar
 
 1. **Supabase**: crie um projeto em supabase.com, abra o *SQL Editor* e rode o arquivo `schema.sql`
