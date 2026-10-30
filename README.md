@@ -4,7 +4,7 @@ CRUD de bebidas com **Supabase** (banco principal) e **Redis** (ranking das bebi
 
 ## Vídeo de apresentação
 
-▶️ **[Assista à demonstração do projeto](COLE-O-LINK-DO-VIDEO-AQUI)**
+▶️ **[Assista à demonstração do projeto](video/apresentacao.mp4)**
 
 O vídeo apresenta a proposta do projeto, as telas e funcionalidades, a integração com o Supabase, uma demonstração prática do Redis e a explicação de onde, por que e com quais benefícios o Redis foi usado.
 
